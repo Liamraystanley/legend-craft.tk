@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% set active_page = "servers" %}
+{% block title %}Servers{% endblock title %}
+{% block content %}
+    <div id="blue">
+        <div class="container">
+            <div class="row centered">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <h4>SERVERS FOR THE MASSES</h4>
+                    <p>FEEL FREE TO JOIN ANY OF THESE SERVERS</p>
+                </div>
+            </div><!-- row -->
+        </div><!-- container -->
+    </div><!--  bluewrap -->
+    <div class="container w text-center">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                Do you not know how to host a Legend Craft server?
+            </div>
+            <div class="panel-body text-center">
+                Head over to Github to get a quick form of installation instructions!
+                <br>
+                <br>
+                <a class="btn btn-info" href="https://github.com/LeChosenOne/LegendCraft#windows">Instructions for Windows</a> |
+                <a class="btn btn-info" href="https://github.com/LeChosenOne/LegendCraft#linux-unix-macos-x">Instructions for Linux</a>
+            </div>
+        </div>
+        {% if servers %}
+            <h1 class="text-center" style="padding-top:30px;padding-bottom:30px;">Legend Craft Server List</h1>
+            <div class="row">
+                <div class="col-md-2 col-sm-12"></div>
+                <div class="col-md-8 col-sm-12">
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Server Name</th>
+                                <th class="text-center">Version</th>
+                                <th class="text-center">Players</th>
+                                <th class="text-center">Uptime</th>
+                                <th class="text-center">Play</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for server in servers %}
+                                <tr>
+                                    <td>{{ server.name }}</td>
+                                    <td>
+                                        <a href="/download"><span class="label label-danger">{{ server.version }}</span></a>
+                                    </td>
+                                    <td>{{ server.pcount }}/{{ server.pmax }}</td>
+                                    <td>{{ server.uptime }}</td>
+                                    <td><a class="btn btn-primary btn-sm" href="{{ server.url }}" target="_blank">Play</a></td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-md-2 col-sm-12"></div>
+            </div>
+        {% else %}
+            <div class="alert alert-danger" style="margin:60px;">
+                <strong>Oh noes!</strong> No servers are currently online!
+            </div>
+        {% endif %}
+    </div><!-- container -->
+{% endblock content %}

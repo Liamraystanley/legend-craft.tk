@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% set active_page = "chat" %}
+{% block title %}Chat{% endblock title %}
+{% block content %}
+    <div id="blue">
+        <div class="container">
+            <div class="row centered">
+                <div class="col-lg-8 col-lg-offset-2">
+                <h4>CHAT WITH THE TEAM</h4>
+                <p>TYPE IN YOUR NAME AND CLICK "CONNECT"</p>
+                </div>
+            </div><!-- row -->
+        </div><!-- container -->
+    </div><!--  bluewrap -->
+    <div class="container w text-center">
+        <iframe
+            src="http://webchat.esper.net/?nick=LegendCraft...&channels=LegendCraft&fg_color=ffffff&fg_sec_color=129900&bg_color=002124&prompt=1"
+            width="90%"
+            height="600">
+        </iframe>
+    </div><!-- container -->
+{% endblock content %}

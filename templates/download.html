@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% set active_page = "download" %}
+{% block title %}Downloads{% endblock title %}
+{% block content %}
+    <div id="blue">
+        <div class="container">
+            <div class="row centered">
+                <div class="col-lg-8 col-lg-offset-2">
+                <h4>DOWNLOAD LEGENDCRAFT</h4>
+                <p>VIEW CURRENT RELEASES</p>
+                <a href="/download/latest" class="btn btn-danger">Download latest release</a> |
+                <a href="/download/latest/src" class="btn btn-danger">View latest source</a>
+                </div>
+            </div><!-- row -->
+        </div><!-- container -->
+    </div><!--  bluewrap -->
+    {% if data %}
+    <div class="container w">
+        <ul class="timeline text-center">
+            {% for release in data %}
+                <li class="{{ loop.cycle('', 'timeline-inverted') }}">
+                    <div class="timeline-badge primary"><i class="fa fa-download"></i></div>
+                    <div class="timeline-panel">
+                        <div class="timeline-heading">
+                            <h4 class="timeline-title"> Version <span class="label label-danger">{{ release.tag_name }}</span>
+                            </h4>
+                            <p>
+                                <small class="text-muted"><i class="fa fa-time"></i> On {{ release.published_at }}</small>
+                            </p>
+                        </div>
+                        <div class="timeline-body">
+                            {{ release.body }}
+                            <br>
+                            <div style="padding-top:20px;">
+                                <a class="btn btn-primary" href="/download/{{ release.tag_name }}">Download {{ release.tag_name }}</a> |
+                                <a class="btn btn-warning" href="/download/{{ release.tag_name }}/src" target="_blank">Download source</a> |
+                                <a class="btn btn-info" href="/download/{{ release.tag_name }}/view" target="_blank">View on Github</a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div><!-- container -->
+    {% else %}
+        <div class="container w">
+            <h1 class="text-center">Unable to get latest releases...</h1>
+        </div><!-- container -->
+    {% endif %}
+{% endblock content %}

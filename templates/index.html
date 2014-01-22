@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% set active_page = "" %}
+{% block title %}Home{% endblock title %}
+{% block content %}
+
+  <div id="headerwrap">
+    <div class="container">
+      <div class="row centered">
+        <div class="col-lg-8 col-lg-offset-2">
+          <h1>It Doesn't Take a <b>Rocket Scientist</b></h1>
+          <h2>It Takes a Programmer</h2>
+          <img src="/static/img/logo.png" width="100px" height="100px" />
+        </div>
+      </div><!-- row -->
+    </div><!-- container -->
+  </div><!-- headerwrap -->
+
+
+  <div class="container w">
+    {% if error %}
+        <div class="alert alert-warning">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>Note!</strong> {{error}}
+        </div>
+    {% endif %}
+    <div class="row centered">
+      <br><br>
+      <div class="col-lg-4">
+        <i class="fa fa-heart"></i>
+        <h4>FEATURES</h4>
+        <p>LegendCraft features a full stable economy, physics, ability to fly, shoot a gun, and compete in gamemodes. As well as a full array of commands. LegendCraft allows for a full customization of ranks, worlds, and the server itself.</p>
+      </div><!-- col-lg-4 -->
+
+      <div class="col-lg-4">
+        <i class="fa fa-star"></i>
+        <h4>HISTORY</h4>
+        <p>LegendCraft was founded in summer of 2012 (july 24th), where it started out as a nameless 800Craft custom edition software forked from 800craft v.206. Eventually, LeChosenOne, the sole developer at the time gave it the name, LegendCraft. After the first release, it was quickly found out by a few servers, most notably by Rising Embers.</p>
+      </div><!-- col-lg-4 -->
+
+      <div class="col-lg-4">
+        <i class="fa fa-trophy"></i>
+        <h4>CREDITS</h4>
+        <p>LegendCraft, a custom Minecraft/ClassiCube server based on fCraft and 800craft. Special thanks to fragmer, for creating fCraft! Special thanks to Jonty800, GlennMR and LaoTszy for their hard work with 800Craft! LegendCraft is a modified version of 800Craft.</p>
+      </div><!-- col-lg-4 -->
+    </div><!-- row -->
+    <br>
+    <br>
+  </div><!-- container -->
+{% endblock content %}

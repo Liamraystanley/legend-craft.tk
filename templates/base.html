@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="LegendCraft Classic Minecraft Software">
+    <meta name="author" content="Liam Stanley">
+    <link rel="shortcut icon" href="/static/img/favicon.ico">
+
+    <title>LegendCraft &middot; {% block title %}{% endblock title %}</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="/static/css/main.css" rel="stylesheet">
+
+    <!-- Icons -->
+    <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <!-- Fixed navbar -->
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="/">LEGENDCRAFT</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+              {% set nav = [
+                  ('', 'HOME'),
+                  ('chat', 'CHAT'),
+                  ('download', 'DOWNLOAD'),
+                  ('software', 'SOFTWARE'),
+                  ('servers', 'SERVERLIST'),
+                  ('wiki', 'WIKI')
+              ] -%}
+              {% set active_page = active_page|default('index') -%}
+              {% for id, caption in nav %}
+                  <li{% if id == active_page %} class="active"{% endif %}><a href="/{{ id|e }}">{{ caption|e }}</a></li>
+              {% endfor %}
+              {% if 'username' in session %}
+                  <li><a href="/logout">LOGOUT</a></li>
+              {% else %}
+                  <li><a href="/login">LOGIN</a></li>
+              {% endif %}
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+
+    <div class="github-fork-ribbon-wrapper right fixed">
+        <div class="github-fork-ribbon">
+            <a href="https://github.com/LeChosenOne/LegendCraft/fork">Fork us on GitHub</a>
+        </div>
+    </div>
+    {% block content %}{% endblock content %}
+
+    <!-- FOOTER -->
+    <div id="f">
+      <div class="container text-center">
+        <div class="row centered" style="display:none;">
+          <a href="#"><i class="fa fa-download"></i></a><a href="#"><i class="fa fa-cloud"></i></a><a href="#"><i class="fa fa-comments"></i></a>
+        </div><!-- row -->
+        <p>
+            <a href="http://liamstanley.net/license">&copy; LIAM STANLEY</a> &amp;
+            <a href="/license">LECHOSENONE</a> 2014
+            <a class="pull-right" href="/api">API</a>
+        </p>
+      </div><!-- container -->
+    </div><!-- Footer -->
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/static/js/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+  </body>
+</html>
