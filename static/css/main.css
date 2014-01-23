@@ -1,366 +1,318 @@
-/*
- * Author: Liam Stanley
- * URL: http://liamstanley.net/
- *
- * Project Name: LegendCraft Portal using Bootstrap 3
- * Version: 1.0
- * URL: http://legend-craft.tk/
- */
- 
-/* FONTS */
 @import url(http://fonts.googleapis.com/css?family=Lato:300,400,700,900);
 @import url(http://fonts.googleapis.com/css?family=Raleway:400,300,700,900);
-
-/* OVERALL ASPECT */
-
 body {
-  background-color: #f2f2f2;
-    font-family: "Lato";
-    font-weight: 300;
+    margin-top: 70px;
+    font-family: Lato;
     font-size: 16px;
+    font-weight: 300;
     color: #555;
-
+    background-color: #f2f2f2;
     -webkit-font-smoothing: antialiased;
     -webkit-overflow-scrolling: touch;
-    
-    margin-top: 70px;
 }
 
-/* Titles */
-h1, h2, h3, h4, h5, h6 {
-    font-family: "Raleway";
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: Raleway;
     font-weight: 300;
     color: #333;
 }
 
-/* Logo stuff */
 .logo {
     color: #ff7878;
 }
 
-
-/* Paragraph & Typographic */
 p {
-    line-height: 28px;
     margin-bottom: 25px;
+    line-height: 28px;
 }
 
 .centered {
     text-align: center;
 }
 
-/* Links */
 a {
     color: #f85c37;
+    -webkit-transition: color .1s ease-in,background .1s ease-in;
+    -moz-transition: color .1s ease-in,background .1s ease-in;
+    -ms-transition: color .1s ease-in,background .1s ease-in;
+    -o-transition: color .1s ease-in,background .1s ease-in;
+    transition: color .1s ease-in,background .1s ease-in;
     word-wrap: break-word;
-
-    -webkit-transition: color 0.1s ease-in, background 0.1s ease-in;
-    -moz-transition: color 0.1s ease-in, background 0.1s ease-in;
-    -ms-transition: color 0.1s ease-in, background 0.1s ease-in;
-    -o-transition: color 0.1s ease-in, background 0.1s ease-in;
-    transition: color 0.1s ease-in, background 0.1s ease-in;
 }
 
-a:hover,
-a:focus {
-    color: #7b7b7b;
+a:focus,
+a:hover {
     text-decoration: none;
     outline: 0;
+    color: #7b7b7b;
 }
 
-a:before,
-a:after {
-    -webkit-transition: color 0.1s ease-in, background 0.1s ease-in;
-    -moz-transition: color 0.1s ease-in, background 0.1s ease-in;
-    -ms-transition: color 0.1s ease-in, background 0.1s ease-in;
-    -o-transition: color 0.1s ease-in, background 0.1s ease-in;
-    transition: color 0.1s ease-in, background 0.1s ease-in;
+a:after,
+a:before {
+    -webkit-transition: color .1s ease-in,background .1s ease-in;
+    -moz-transition: color .1s ease-in,background .1s ease-in;
+    -ms-transition: color .1s ease-in,background .1s ease-in;
+    -o-transition: color .1s ease-in,background .1s ease-in;
+    transition: color .1s ease-in,background .1s ease-in;
 }
 
- hr {
+hr {
     display: block;
     height: 1px;
-    border: 0;
-    border-top: 1px solid #ccc;
     margin: 1em 0;
     padding: 0;
+    border: 0;
+    border-top: 1px solid #ccc;
 }
 
-
 .navbar {
-	font-weight: 800;
-	font-size: 14px;
-	padding-top: 15px;
-	padding-bottom: 15px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    font-size: 14px;
+    font-weight: 800;
 }
 
 .navbar-inverse {
-	background: #2d2d2d;
-	border-color: #2d2d2d;
+    border-color: #2d2d2d;
+    background: #2d2d2d;
 }
 
-.navbar-inverse .navbar-nav > .active > a {
-	background: #ff7878
+.navbar-inverse .navbar-nav>.active>a {
+    background: #ff7878;
 }
 
 .navbar-inverse .navbar-brand {
-	color: #999999;
-	font-weight: bolder;
-	font-size: 22px;
-	letter-spacing: 1px;
+    font-size: 22px;
+    font-weight: bolder;
+    letter-spacing: 1px;
+    color: #999;
 }
 
 .navbar-inverse .navbar-brand i {
-	color: #ff7878;
-	font-size: 22px;
-	letter-spacing: 1px;
+    font-size: 22px;
+    letter-spacing: 1px;
+    color: #ff7878;
 }
 
-/*TILT*/
 .tilt {
-  -webkit-transition: all 0.5s ease;
-     -moz-transition: all 0.5s ease;
-       -o-transition: all 0.5s ease;
-      -ms-transition: all 0.5s ease;
-          transition: all 0.5s ease;
-}
- 
-.tilt:hover {
-  -webkit-transform: rotate(-10deg);
-     -moz-transform: rotate(-10deg);
-       -o-transform: rotate(-10deg);
-      -ms-transform: rotate(-10deg);
-          transform: rotate(-10deg);
+    -webkit-transition: all .5s ease;
+    -moz-transition: all .5s ease;
+    -ms-transition: all .5s ease;
+    -o-transition: all .5s ease;
+    transition: all .5s ease;
 }
 
-/* ==========================================================================
-   Wrap Sections
-   ========================================================================== */
+.tilt:hover {
+    -webkit-transform: rotate(-10deg);
+    -moz-transform: rotate(-10deg);
+    -ms-transform: rotate(-10deg);
+    -o-transform: rotate(-10deg);
+    transform: rotate(-10deg);
+}
 
 #headerwrap {
-	/*background: url(../img/header-bg.jpg) no-repeat center top;*/
+    width: 100%;
+    margin-top: -10px;
+    padding-top: 20px;
+    min-height: 500px;
+    text-align: center;
     background: url(/static/img/minecraft.png) no-repeat center top;
-	margin-top: -10px;
-	padding-top:20px;
-	text-align:center;
-	background-attachment: relative;
-	background-position: center center;
-	min-height: 500px;
-	width: 100%;
-	
-    -webkit-background-size: 100%;
-    -moz-background-size: 100%;
-    -o-background-size: 100%;
-    background-size: 100%;
-
+    background-attachment: relative;
+    background-position: center center;
     -webkit-background-size: cover;
     -moz-background-size: cover;
-    -o-background-size: cover;
     background-size: cover;
+    -o-background-size: cover;
 }
 
 #headerwrap h1 {
-	margin-top: 100px;
-	color: white;
-	font-size: 70px;
-	font-weight: 300;
-	letter-spacing: 3px;
+    margin-top: 100px;
+    font-size: 70px;
+    font-weight: 300;
+    letter-spacing: 3px;
+    color: #fff;
 }
 
 #headerwrap h2 {
-	color: white;
-	font-size: 40px;
-	font-weight: 700;
-	letter-spacing: 2px;
-	text-transform: uppercase;
+    text-transform: uppercase;
+    font-size: 40px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #fff;
 }
 
-/* Dark Grey Wrap */
 #dg {
-	background: #e0e0e0;
-	padding-top: 70px;
-	padding-bottom: 70px;
-	text-align: center;
+    padding-top: 70px;
+    padding-bottom: 70px;
+    text-align: center;
+    background: #e0e0e0;
 }
 
 #dg h4 {
-	font-weight: 700;
+    font-weight: 700;
 }
 
-/* Light Grey */
 #lg {
-	background: #ebebeb;
-	padding-top: 70px;
-	padding-bottom: 70px;
-	text-align: center;
+    padding-top: 70px;
+    padding-bottom: 70px;
+    text-align: center;
+    background: #ebebeb;
 }
 
 #lg h4 {
-	font-weight: 700;
+    font-weight: 700;
 }
 
-
-/* Red Wrap */
 #r {
-	background: #ff7878;
-	padding-top: 35px;
-	padding-bottom: 35px;
+    padding-top: 35px;
+    padding-bottom: 35px;
+    background: #ff7878;
 }
 
 #r h4 {
-	color: white;
-	font-weight: 700;
+    font-weight: 700;
+    color: #fff;
 }
 
 #r p {
-	color: white;
+    color: #fff;
 }
 
-/* Blue Wrap */
-
 #blue {
-	background: #3498db;
-	padding-top: 35px;
-	padding-bottom: 35px;
+    padding-top: 35px;
+    padding-bottom: 35px;
+    background: #3498db;
 }
 
 #blue h4 {
-	color: white;
-	font-weight: 700;
+    font-weight: 700;
+    color: #fff;
 }
 
 #blue p {
-	color: white;
+    color: #fff;
 }
 
-
-
-/* Footer Wrap */
 #f {
-	background: #2d2d2d;
-	padding-top: 30px;
-	padding-bottom: 30px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    background: #2d2d2d;
 }
 
 #f i {
-	color: #bdbdbd;
-	font-size: 30px;
-	padding: 20px;
+    padding: 20px;
+    font-size: 30px;
+    color: #bdbdbd;
 }
 
 #f i:hover {
-	color: #ff7878;
+    color: #ff7878;
 }
 
-/****** SECTIONS *****/
-
 .w {
-	padding-top: 35px;
-  padding-bottom: 35px;
+    padding-top: 35px;
+    padding-bottom: 35px;
 }
 
 .w h4 {
-	font-weight: 700;
+    font-weight: 700;
 }
 
 .w i {
-	color: #ff7878;
-	font-size: 30px;
+    font-size: 30px;
+    color: #ff7878;
 }
 
-
 .wb {
-	padding-top: 35px;
-	margin-bottom: 0px;
+    margin-bottom: 0;
+    padding-top: 35px;
 }
 
 .wb h4 {
-	font-weight: 700;
+    font-weight: 700;
 }
 
 .desc {
-	padding-top: 35px;
+    padding-top: 35px;
 }
 
 .desc h4 {
-	font-weight: 700;
+    font-weight: 700;
 }
 
 .desc i {
-	color: #ff7878;
-	font-size: 12px;
-	padding: 5px;
+    padding: 5px;
+    font-size: 12px;
+    color: #ff7878;
 }
 
-/***** MODAL CONTACT *****/
 .modal-content {
-	border-radius: 0px;
-
+    border-radius: 0;
 }
 
 .modal-header {
-	background: #bdbdbd;
-	color: white;
+    color: #fff;
+    background: #bdbdbd;
 }
 
 .modal-header h4 {
-	font-weight: 700;
+    font-weight: 700;
 }
 
 .modal-body {
-	background: #f2f2f2;
-    font-family: "Lato";
-    font-weight: 300;
+    font-family: Lato;
     font-size: 16px;
+    font-weight: 300;
     color: #555;
+    background: #f2f2f2;
 }
 
 .modal-footer {
-	background: #f2f2f2;
-	margin-top: 0px; 
+    margin-top: 0;
+    background: #f2f2f2;
 }
 
-/* ==========================================================================
-   Pricing Tables
-   ========================================================================== */
-   
 .pricing-option {
     padding-bottom: 40px;
 }
 
 .pricing-option .pricing-top {
     position: relative;
-    background: #222;
-    color: white;
-    text-align: center;
-    font-weight: bold;
-
-    padding: 40px 20px 30px 20px;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box;
+    padding: 40px 20px 30px;
+    text-align: center;
+    font-weight: 700;
+    color: #fff;
+    background: #222;
 }
 
 .pricing-option .pricing-top .special-label {
     display: block;
-    width: 100%;
     position: absolute;
     top: 0;
     left: 0;
-    background: #1abc9c;
+    width: 100%;
+    padding: 3px 0;
     text-transform: uppercase;
     font-size: 15px;
-    font-weight: bold;
-    padding: 3px 0;
+    font-weight: 700;
+    background: #1abc9c;
 }
 
 .special .pricing-top {
-    background: black;
+    background: #000;
 }
 
 .pricing-option .pricing-edition {
-    text-transform: uppercase;
     display: block;
+    text-transform: uppercase;
     font-size: 25px;
     letter-spacing: 8px;
 }
@@ -389,26 +341,26 @@ a:after {
 }
 
 .pricing-option ul {
-    list-style: none;
     margin: 0;
-    background: #eee;
+    padding-left: 0;
     text-align: center;
-    padding-left: 0px;
+    list-style: none;
+    background: #eee;
 }
 
 .pricing-option ul li {
-    border-bottom: solid 1px #e1e1e1;
     padding-top: 20px;
     padding-bottom: 20px;
+    border-bottom: solid 1px #e1e1e1;
 }
 
 .pricing-option .pricing-signup {
     display: block;
+    padding: 15px 10px;
     text-align: center;
     font-size: 18px;
-    font-weight: bold;
-    padding: 15px 10px;
-    color: white;
+    font-weight: 700;
+    color: #fff;
     background: #1abc9c;
 }
 
@@ -416,72 +368,45 @@ a:after {
     background: #ff7878;
 }
 
-/* ==========================================================================
-   Github "Fork me!"
-   ========================================================================== */
-
-/* Left will inherit from right (so we don't need to duplicate code) */
 .github-fork-ribbon {
-    /* The right and left classes determine the side we attach our banner to */
-    position: absolute;
-
-    /* Add a bit of padding to give some substance outside the "stitching" */
-    padding: 2px 0;
-
-    /* Set the base colour */
-    background-color: #a00;
-
-    /* Set a gradient: transparent black at the top to almost-transparent black at the bottom */
-    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0)), to(rgba(0, 0, 0, 0.15)));
-    background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15));
-    background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15));
-    background-image: -ms-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15));
-    background-image: -o-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15));
-    background-image: linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15));
-
-    /* Add a drop shadow */
-    -webkit-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.5);
-    -moz-box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.5);
-    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.5);
-
     z-index: 9999;
+    position: absolute;
+    padding: 2px 0;
+    background-color: #a00;
+    background-image: -webkit-gradient(linear,left top,left bottom,from(rgba(0,0,0,0) ), to(rgba(0,0,0,.15) ) );
+    background-image: -webkit-linear-gradient(top,rgba(0,0,0,0), rgba(0,0,0,.15) );
+    background-image: -moz-linear-gradient(top,rgba(0,0,0,0), rgba(0,0,0,.15) );
+    background-image: -ms-linear-gradient(top,rgba(0,0,0,0), rgba(0,0,0,.15) );
+    background-image: -o-linear-gradient(top,rgba(0,0,0,0), rgba(0,0,0,.15) );
+    background-image: linear-gradient(top,rgba(0,0,0,0), rgba(0,0,0,.15) );
+    -webkit-box-shadow: 0 2px 3px 0 rgba(0,0,0,.5);
+    -moz-box-shadow: 0 2px 3px 0 rgba(0,0,0,.5);
+    box-shadow: 0 2px 3px 0 rgba(0,0,0,.5);
     pointer-events: auto;
 }
 
 .github-fork-ribbon a,
 .github-fork-ribbon a:hover {
-    /* Set the font */
-    font: 700 13px "Helvetica Neue", Helvetica, Arial, sans-serif;
-    color: #fff;
-
-    /* Set the text properties */
-    text-decoration: none;
-    text-shadow: 0 -1px rgba(0, 0, 0, 0.5);
-    text-align: center;
-
-    /* Set the geometry. If you fiddle with these you'll also need
-         to tweak the top and right values in .github-fork-ribbon. */
-    width: 200px;
-    line-height: 20px;
-
-    /* Set the layout properties */
     display: inline-block;
+    width: 200px;
     padding: 2px 0;
-
-    /* Add "stitching" effect */
-    border-width: 1px 0;
-    border-style: dotted;
-    border-color: #fff;
-    border-color: rgba(255, 255, 255, 0.7);
+    border: 1px 0 dotted #fff;
+    border-color: rgba(255,255,255,.7);
+    text-align: center;
+    text-decoration: none;
+    text-shadow: 0 -1px rgba(0,0,0,.5);
+    font: 700 13px "Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 20px;
+    color: #fff;
 }
 
 .github-fork-ribbon-wrapper {
+    z-index: 9999;
+    position: absolute;
+    top: 0;
     width: 150px;
     height: 150px;
-    position: absolute;
     overflow: hidden;
-    top: 0;
-    z-index: 9999;
     pointer-events: none;
 }
 
@@ -507,14 +432,13 @@ a:after {
 .github-fork-ribbon-wrapper.right-bottom {
     position: fixed;
     top: inherit;
-    bottom: 0;
     right: 0;
+    bottom: 0;
 }
 
 .github-fork-ribbon-wrapper.right .github-fork-ribbon {
     top: 42px;
     right: -43px;
-
     -webkit-transform: rotate(45deg);
     -moz-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
@@ -525,7 +449,6 @@ a:after {
 .github-fork-ribbon-wrapper.left .github-fork-ribbon {
     top: 42px;
     left: -43px;
-
     -webkit-transform: rotate(-45deg);
     -moz-transform: rotate(-45deg);
     -ms-transform: rotate(-45deg);
@@ -533,11 +456,9 @@ a:after {
     transform: rotate(-45deg);
 }
 
-
 .github-fork-ribbon-wrapper.left-bottom .github-fork-ribbon {
     top: 80px;
     left: -43px;
-
     -webkit-transform: rotate(45deg);
     -moz-transform: rotate(45deg);
     -ms-transform: rotate(45deg);
@@ -548,136 +469,228 @@ a:after {
 .github-fork-ribbon-wrapper.right-bottom .github-fork-ribbon {
     top: 80px;
     right: -43px;
-
     -webkit-transform: rotate(-45deg);
     -moz-transform: rotate(-45deg);
     -ms-transform: rotate(-45deg);
     -o-transform: rotate(-45deg);
     transform: rotate(-45deg);
 }
+
 .timeline {
-  list-style: none;
-  padding: 20px 0 20px;
-  position: relative;
+    position: relative;
+    padding: 20px 0;
+    list-style: none;
 }
+
 .timeline:before {
-  top: 0;
-  bottom: 0;
-  position: absolute;
-  content: " ";
-  width: 3px;
-  background-color: #6F6F6F;
-  left: 50%;
-  margin-left: -1.5px;
+    content: " ";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 3px;
+    margin-left: -1.5px;
+    background-color: #226ED5;
 }
-.timeline > li {
-  margin-bottom: 20px;
-  position: relative;
+
+.timeline>li {
+    position: relative;
+    margin-bottom: 20px;
 }
-.timeline > li:before,
-.timeline > li:after {
-  content: " ";
-  display: table;
+
+.timeline>li:after,
+.timeline>li:before {
+    content: " ";
+    display: table;
 }
-.timeline > li:after {
-  clear: both;
+
+.timeline>li:after {
+    clear: both;
 }
-.timeline > li:before,
-.timeline > li:after {
-  content: " ";
-  display: table;
+
+.timeline>li>.timeline-panel {
+    float: left;
+    position: relative;
+    width: 46%;
+    padding: 20px;
+    border: 1px solid #d4d4d4;
+    border-radius: 2px;
+    -webkit-box-shadow: 0 1px 6px rgba(0,0,0,.3);
+    box-shadow: 0 1px 6px rgba(0,0,0,.3);
 }
-.timeline > li:after {
-  clear: both;
+
+.timeline>li>.timeline-panel:before {
+    content: " ";
+    display: inline-block;
+    position: absolute;
+    top: 26px;
+    right: -15px;
+    border-top: 15px solid transparent;
+    border-right: 0 solid #ccc;
+    border-bottom: 15px solid transparent;
+    border-left: 15px solid #ccc;
 }
-.timeline > li > .timeline-panel {
-  width: 46%;
-  float: left;
-  border: 1px solid #d4d4d4;
-  border-radius: 2px;
-  padding: 20px;
-  position: relative;
-  -webkit-box-shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
-  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.4);
+
+.timeline>li>.timeline-panel:after {
+    content: " ";
+    display: inline-block;
+    position: absolute;
+    top: 27px;
+    right: -14px;
+    border-top: 14px solid transparent;
+    border-right: 0 solid #fff;
+    border-bottom: 14px solid transparent;
+    border-left: 14px solid #fff;
 }
-.timeline > li > .timeline-panel:before {
-  position: absolute;
-  top: 26px;
-  right: -15px;
-  display: inline-block;
-  border-top: 15px solid transparent;
-  border-left: 15px solid #ccc;
-  border-right: 0 solid #ccc;
-  border-bottom: 15px solid transparent;
-  content: " ";
+
+.timeline>li>.timeline-badge {
+    z-index: 100;
+    position: absolute;
+    top: 16px;
+    left: 50%;
+    width: 50px;
+    height: 50px;
+    margin-left: -25px;
+    border-top-left-radius: 50%;
+    border-top-right-radius: 50%;
+    border-bottom-left-radius: 50%;
+    border-bottom-right-radius: 50%;
+    text-align: center;
+    font-size: 1.4em;
+    line-height: 50px;
+    color: #fff;
+    background-color: #999;
 }
-.timeline > li > .timeline-panel:after {
-  position: absolute;
-  top: 27px;
-  right: -14px;
-  display: inline-block;
-  border-top: 14px solid transparent;
-  border-left: 14px solid #fff;
-  border-right: 0 solid #fff;
-  border-bottom: 14px solid transparent;
-  content: " ";
+
+.timeline>li.timeline-inverted>.timeline-panel {
+    float: right;
 }
-.timeline > li > .timeline-badge {
-  color: #fff;
-  width: 50px;
-  height: 50px;
-  line-height: 50px;
-  font-size: 1.4em;
-  text-align: center;
-  position: absolute;
-  top: 16px;
-  left: 50%;
-  margin-left: -25px;
-  background-color: #999999;
-  z-index: 100;
-  border-top-right-radius: 50%;
-  border-top-left-radius: 50%;
-  border-bottom-right-radius: 50%;
-  border-bottom-left-radius: 50%;
+
+.timeline>li.timeline-inverted>.timeline-panel:before {
+    right: auto;
+    left: -15px;
+    border-right-width: 15px;
+    border-left-width: 0;
 }
-.timeline > li.timeline-inverted > .timeline-panel {
-  float: right;
+
+.timeline>li.timeline-inverted>.timeline-panel:after {
+    right: auto;
+    left: -14px;
+    border-right-width: 14px;
+    border-left-width: 0;
 }
-.timeline > li.timeline-inverted > .timeline-panel:before {
-  border-left-width: 0;
-  border-right-width: 15px;
-  left: -15px;
-  right: auto;
-}
-.timeline > li.timeline-inverted > .timeline-panel:after {
-  border-left-width: 0;
-  border-right-width: 14px;
-  left: -14px;
-  right: auto;
-}
+
 .timeline-badge.primary {
-  background-color: #2e6da4 !important;
+    background-color: #2e6da4!important;
 }
+
 .timeline-badge.success {
-  background-color: #3f903f !important;
+    background-color: #3f903f!important;
 }
+
 .timeline-badge.warning {
-  background-color: #f0ad4e !important;
+    background-color: #f0ad4e!important;
 }
+
 .timeline-badge.danger {
-  background-color: #d9534f !important;
+    background-color: #d9534f!important;
 }
+
 .timeline-badge.info {
-  background-color: #5bc0de !important;
+    background-color: #5bc0de!important;
 }
+
 .timeline-title {
-  margin-top: 0;
-  color: inherit;
+    margin-top: 0;
+    color: inherit;
 }
-.timeline-body > p,
-.timeline-body > ul {
-  margin-bottom: 0;
+
+.timeline-body>p,
+.timeline-body>ul {
+    margin-bottom: 0;
 }
-.timeline-body > p + p {
-  margin-top: 5px;
+
+.timeline-body>p+p {
+    margin-top: 5px;
+}
+
+@media(max-width:767px) {
+    ul.timeline:before {
+        left: 40px;
+    }
+
+    ul.timeline>li>.timeline-panel {
+        width: calc(100% - 90px);
+        width: -moz-calc(100% - 90px);
+        width: -webkit-calc(100% - 90px);
+    }
+
+    ul.timeline>li>.timeline-badge {
+        top: 16px;
+        left: 15px;
+        margin-left: 0;
+    }
+
+    ul.timeline>li>.timeline-panel {
+        float: right;
+    }
+
+    ul.timeline>li>.timeline-panel:before {
+        right: auto;
+        left: -15px;
+        border-right-width: 15px;
+        border-left-width: 0;
+    }
+
+    ul.timeline>li>.timeline-panel:after {
+        right: auto;
+        left: -14px;
+        border-right-width: 14px;
+        border-left-width: 0;
+    }
+}
+
+.widget .panel-body {
+    font-size: 18px;
+    padding: 0;
+}
+
+.widget .list-group {
+    margin-bottom: 0;
+}
+
+.widget .panel-title {
+    display: inline;
+}
+
+.widget .label-info {
+    float: right;
+}
+
+.widget li.list-group-item {
+    border: 0;
+    border-top: 1px solid #ddd;
+    border-radius: 0;
+}
+
+.widget li.list-group-item:hover {
+    background-color: rgba(86,61,124,.1);
+}
+
+.widget .mic-info {
+    font-size: 14px;
+    color: #666;
+}
+
+.widget .action {
+    margin: 5px;
+}
+
+.widget .comment-text {
+    font-size: 14px;
+}
+
+.widget .btn-block {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
 }

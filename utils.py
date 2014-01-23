@@ -100,13 +100,49 @@ def login(method):
     return wrapper
 
 
-def hash(passwd):
-    data = hashlib.sha256(passwd).hexdigest()
+def hash(data):
+    data = hashlib.md5(data).hexdigest()
     return data
 
 
-# def gen_new_db():
-#     with open("user.db", "w") as file:
-#         users = {'admin': hash('demo')}
-#         file.write(json.dumps(users, indent=4))
-#     return users
+def getRequests():
+    try:
+        with open('request.db', 'r') as file:
+            data = json.loads(file.read())['list']
+    except IOError as e:
+        genNewDB('request.db', {'list': []})
+        data = []
+    return data
+
+
+def remRequest(index):
+    data = getRequests()
+    try:
+        del data[int(index)]
+        with open('request.db','w') as file:
+            file.write(json.dumps({'list': data}, indent=4))
+        return True
+    except:
+        return False
+
+
+def getRequestIds():
+    requests = getRequests()
+    ids = []
+    for request in requests:
+        ids.append(request['id'])
+    return ids
+
+
+def addRequest(item):
+    with open('request.db', 'r') as file:
+        data = json.loads(file.read())['list']
+    data.append(item)
+    with open('request.db', 'w') as file:
+        file.write(json.dumps({'list': data}, indent=4))
+    return data
+
+
+def genNewDB(dbname, data):
+    with open(str(dbname), 'w') as file:
+        file.write(json.dumps(data, indent=4))

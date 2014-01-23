@@ -1,0 +1,32 @@
+<!-- Modal -->
+<div class="modal fade" id="request" tabindex="-1" role="dialog" aria-labelledby="requestLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form accept-charset="UTF-8" action="/request" method="POST">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title text-center" id="requestLabel">Request a feature or report a bug fix here</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-xs-6 col-md-6">
+                            <input type="email" name="email" value="" class="form-control" placeholder="Email" />
+                        </div>
+                        <div class="col-xs-6 col-md-6">
+                            <select name="type" class="form-control">
+                                <option selected="selected">Feature</option>
+                                <option>Bug</option>
+                            </select>
+                        </div>
+                    </div>
+                    <textarea class="form-control counted" name="message" placeholder="Type your request in here..." rows="5" style="margin-bottom:10px;margin-top:10px;"></textarea>
+                    <h6 class="pull-left">For long items, use a <a href="http://pastebin.com" target="_blank">pastebin</a>. For files use <a href="http://www.mediafire.com" target="_blank">MediaFire</a></h6><h6 class="pull-right" id="counter"></h6>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Cancel</button>
+                    <button class="btn btn-info" type="submit">Submit</button>
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

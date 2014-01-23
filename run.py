@@ -16,7 +16,7 @@ from utils import *
 def main(page="index"):    
     if page == 'logout':
         flask.session.pop('username', None)
-        return flask.redirect('/')
+        return flask.render_template('index.html', success="Successfully logged out!")
     if os.path.isfile('templates/%s.html' % page):
         return flask.render_template(page+'.html')
     return flask.abort(404)
@@ -29,6 +29,7 @@ def rest_api():
     if not data:
         return flask.abort(404)
     data['servers'] = getServers()
+    data['requests'] = getRequests()
     return jsonify(data), 200
 
 
@@ -84,12 +85,6 @@ def download(version=None, other=None):
 @app.route('/license')
 def license():
     return flask.redirect('https://raw.github.com/LeChosenOne/LegendCraft/master/License.txt')
-
-
-@app.route('/software')
-@login
-def software():
-    return 'Not done. xD'
 
 
 @app.route('/wiki')
@@ -198,9 +193,9 @@ class Login(flask.views.MethodView):
         if not required[0] in form or not required[1] in form:
             error = 'You must have both a password and username!'
             return flask.render_template('login.html')
-        if 'logout' in form:
-            flask.session.pop('username', None)
-            return flask.redirect(flask.url_for('login'))
+        #if 'logout' in form:
+        #    flask.session.pop('username', None)
+        #    return flask.redirect(flask.url_for('login'))
         errors = {
             'blank': 'You must have both a username and password.',
             'incorrect': 'Incorrect username or password.',
@@ -225,6 +220,76 @@ class Login(flask.views.MethodView):
         return flask.redirect('/')
 
 
+# Thinking about the request.db format...
+# requests = { 
+#     'list': [
+#         {
+#             'date': '2103981203',
+#             'type': 'Bug',
+#             'message': 'YOLO STUFF HERE HAHAHAHAHAHAHAHAHA',
+#             'author': 'me@liamstanley.net'
+#         }
+#     ]
+# }
+
+
+class Request(flask.views.MethodView):
+    @login
+    def get(self):
+        args = flask.request.args
+        if 'delete' in args:
+            attempt = remRequest(args['delete'])
+            return flask.redirect(flask.url_for('request'))
+
+        data = getRequests()
+        count = str(len(data))
+
+        # Assume "servers" is a list() of dict()'s with server data
+        # So, lets return the data to the user, sorted by uptime!
+        count = 0
+        for request in data:
+            difference = int(time.time()) - int(request['date'])
+            request['time'] = date(relativedelta(seconds=difference))[0]
+            request['num'] = str(count)
+            count += 1
+
+        data = sorted(data, key=lambda k: k['date'])[::-1]
+
+        return flask.render_template('request.html', requests=data, count=count)
+
+    def post(self):
+        form = flask.request.form
+        required = ['email', 'type', 'message']
+        types = ['Bug', 'Feature']
+        for requirement in required:
+            if not requirement in form:
+                error = 'An email, a submission type, and a message are all required!'
+                return flask.render_template('index.html', error=error)
+        
+        if not form['type'] in types or len(form['message']) < 15 or len(form['email']) < 5:
+            error = 'Invalid submission!'
+            return flask.render_template('index.html', error=error)
+
+        item = {
+            'date': str(int(time.time())),
+            'type': form['type'].lower(),
+            'message': form['message'],
+            'id': str(md5(form['message']).hexdigest()),
+            'author': form['email']
+        }
+        # Before we add it, see if we match another server...
+        if item['id'] in getRequestIds():
+            error = 'Duplicate submission!'
+            return flask.render_template('index.html', error=error)
+        try:
+            data = addRequest(item)
+        except IOError as e:
+            print 'Enable to open request.db (%s). Making a new one!' % str(e)
+            genNewDB('request.db', {'list': []})
+            data = addRequest(item)
+        return flask.render_template('index.html', success="Request has been received. Thank you!")
+
+
 @app.errorhandler(404)
 def page_not_found(error):
     return flask.render_template('404.html'), 404
@@ -242,7 +307,13 @@ def page_not_found(error):
 
 
 app.add_url_rule('/login', view_func=Login.as_view('login'), methods=['GET','POST'])
+app.add_url_rule('/request', view_func=Request.as_view('request'), methods=['GET','POST'])
 
+@app.template_filter()
+def nl2br(value): 
+    return value.replace('\n','\n<br>')
+
+# flask.filters['nl2br'] = nl2br
 
 if __name__ == '__main__':
     # Create a thread to check for inactive servers...

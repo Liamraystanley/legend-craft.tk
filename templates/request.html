@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% set active_page = "requests" %}
+{% block title %}Requests{% endblock title %}
+{% block content %}
+    <div id="blue">
+        <div class="container">
+            <div class="row centered">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <h4>REQUESTS VIEWER</h4>
+                    <p>VIEW CURRENT BUG SUBMISSIONS AND FEATURE REQUESTS</p>
+                </div>
+            </div><!-- row -->
+        </div><!-- container -->
+    </div><!--  bluewrap -->
+    {% if requests %}
+    <div class="container w">
+        <div class="panel panel-default widget">
+            <div class="panel-heading">
+                <span class="fa fa-comment"></span>
+                <h3 class="panel-title">
+                    Recent Requests</h3>
+                <!--<span class="label label-info">
+                    78</span>-->
+            </div>
+            <div class="panel-body">
+                <ul class="list-group">
+                    {% for request in requests %}
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-xs-2 col-md-1">
+                                {% if request.type == 'bug' %}
+                                    <i class="fa fa-bug" style="font-size:75px;margin:10px;"></i>
+                                {% else %}
+                                    <i class="fa fa-lightbulb-o" style="font-size:75px;margin:10px;margin-left:24px;"></i>
+                                {% endif %}
+                            </div>
+                            <div class="col-xs-9 col-md-10">
+                                <div>
+                                    <a>{{ request.type }} #{{ request.num }}</a>
+                                    <div class="mic-info">
+                                        By: <a href="#">{{ request.author }}</a> {{ request.time }} ago
+                                    </div>
+                                </div>
+                                <div class="comment-text">
+                                    <pre>{{ request.message }}</pre> {# can use  | nl2br | safe #}
+                                </div>
+                            </div>
+                            <div class="col-xs-1 cold-md-1">
+                                <div class="action">
+                                    <a class="btn btn-danger" href="/request?delete={{ request.num }}"><i class="fa fa-trash-o"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+                <!--<a href="#" class="btn btn-primary btn-sm btn-block" role="button"><span class="fa fa-refresh"></span> More</a>-->
+            </div>
+        </div>
+    </div><!-- container -->
+    {% else %}
+        <div class="container w">
+            <h1 class="text-center">Unable to get requests...</h1>
+        </div><!-- container -->
+    {% endif %}
+{% endblock content %}

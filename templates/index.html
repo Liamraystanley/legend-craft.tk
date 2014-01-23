@@ -18,9 +18,15 @@
 
   <div class="container w">
     {% if error %}
-        <div class="alert alert-warning">
+        <div class="alert alert-danger">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             <strong>Note!</strong> {{error}}
+        </div>
+    {% endif %}
+    {% if success %}
+        <div class="alert alert-success">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>Heyyo!</strong> {{ success }}
         </div>
     {% endif %}
     <div class="row centered">

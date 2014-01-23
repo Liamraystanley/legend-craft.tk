@@ -45,7 +45,6 @@
                   ('', 'HOME'),
                   ('chat', 'CHAT'),
                   ('download', 'DOWNLOAD'),
-                  ('software', 'SOFTWARE'),
                   ('servers', 'SERVERLIST'),
                   ('wiki', 'WIKI')
               ] -%}
@@ -53,9 +52,18 @@
               {% for id, caption in nav %}
                   <li{% if id == active_page %} class="active"{% endif %}><a href="/{{ id|e }}">{{ caption|e }}</a></li>
               {% endfor %}
+
               {% if 'username' in session %}
-                  <li><a href="/logout">LOGOUT</a></li>
+                  {% set adminnav = [
+                      ('request', 'REQUESTS'),
+                      ('logout', 'LOGOUT')
+                  ] -%}
+                  {% set active_page = active_page|default('index') -%}
+                  {% for id, caption in adminnav %}
+                      <li{% if id == active_page %} class="active"{% endif %}><a href="/{{ id|e }}">{{ caption|e }}</a></li>
+                  {% endfor %}
               {% else %}
+                  <li><a href="#" data-toggle="modal" data-target="#request">REQUESTS</a></li>
                   <li><a href="/login">LOGIN</a></li>
               {% endif %}
           </ul>
@@ -83,11 +91,12 @@
         </p>
       </div><!-- container -->
     </div><!-- Footer -->
-
+    {% include "modals.html" %}
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script src="/static/js/jquery.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
+    <script src="/static/js/forms.js"></script>
   </body>
 </html>
