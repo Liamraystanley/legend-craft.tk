@@ -1,20 +1,24 @@
 #!/usr/bin/python
 import flask, flask.views
 app = flask.Flask(__name__)
+from werkzeug.contrib.fixers import ProxyFix
+app.wsgi_app = ProxyFix(app.wsgi_app)
 
 import time, os
 from flask import jsonify
 from threading import Thread
 from hashlib import md5
 from collections import OrderedDict
-from random import randint as crypt
+#from random import randint as crypt
 from utils import *
+import settings
 
 
 @app.route('/')
 @app.route('/<page>')
 def main(page="index"):    
     if page == 'logout':
+        print('User %s logged out.' % flask.session['username'])
         flask.session.pop('username', None)
         return flask.render_template('index.html', success="Successfully logged out!")
     if os.path.isfile('templates/%s.html' % page):
@@ -136,6 +140,9 @@ def server_heartbeat():
     server['pcount'] = str(args['players'])
     server['pmax'] = str(args['max'])
     server['url'] = args['url']
+    
+    if len(server['version'].split('.')) != 3:
+        server['version'] = 'Custom'
 
     # Still not finished vars: "last_ping", and "uptime". Those are sorted now..
     # First we need to tell if the server is new or not. By looping through and finding ID's!
@@ -152,6 +159,7 @@ def server_heartbeat():
         server['last_ping'], server['uptime'] = uptime, uptime
         servers.append(server)
         saveServers(servers)
+        print('Server "%s" has been added.' % server['name'])
         return 'Added'
 
 
@@ -211,6 +219,7 @@ class Login(flask.views.MethodView):
         accountStatus = isauthed(username, passwd)
         if accountStatus == 1:
             flask.session[required[0]] = username
+            print('User %s successfully authenticated!' % username)
         elif accountStatus == 2:
             return flask.render_template('login.html', error=errors['notadmin'])
         else:
@@ -218,19 +227,6 @@ class Login(flask.views.MethodView):
         if 'url' in form:
             return flask.redirect(form['url'])
         return flask.redirect('/')
-
-
-# Thinking about the request.db format...
-# requests = { 
-#     'list': [
-#         {
-#             'date': '2103981203',
-#             'type': 'Bug',
-#             'message': 'YOLO STUFF HERE HAHAHAHAHAHAHAHAHA',
-#             'author': 'me@liamstanley.net'
-#         }
-#     ]
-# }
 
 
 class Request(flask.views.MethodView):
@@ -260,13 +256,16 @@ class Request(flask.views.MethodView):
     def post(self):
         form = flask.request.form
         required = ['email', 'type', 'message']
+        optional = ['os', 'runtime', 'version']
         types = ['Bug', 'Feature']
         for requirement in required:
             if not requirement in form:
                 error = 'An email, a submission type, and a message are all required!'
                 return flask.render_template('index.html', error=error)
-        
-        if not form['type'] in types or len(form['message']) < 15 or len(form['email']) < 5:
+
+        # Yoo. Don't you love this ugly set of if's
+        if not form['type'] in types or len(form['message']) < 15 or len(form['email']) < 5 or \
+          ' ' in form['email'] or not '@' in form['email'] or not '.' in form['email']:
             error = 'Invalid submission!'
             return flask.render_template('index.html', error=error)
 
@@ -275,19 +274,33 @@ class Request(flask.views.MethodView):
             'type': form['type'].lower(),
             'message': form['message'],
             'id': str(md5(form['message']).hexdigest()),
-            'author': form['email']
+            'author': form['email'],
+            'ip': flask.request.remote_addr
         }
+
+        # Make sure message isn't mass spam..
+        while '\r\n\r\n\r\n' in item['message']:
+            item['message'] = item['message'].replace('\r\n\r\n\r\n', '\r\n\r\n')
+        
+        # Add some optional things that we might get, from a servers winform
+        for setting in optional:
+            if setting in form:
+                item[setting] = form[setting]
+
+        if 'runtime' in form: item['runtime'] = form['runtime']
+        if 'os' in form: item['os'] = form['os']
+
         # Before we add it, see if we match another server...
         if item['id'] in getRequestIds():
-            error = 'Duplicate submission!'
-            return flask.render_template('index.html', error=error)
+            return flask.render_template('index.html', error='Duplicate submission!')
         try:
             data = addRequest(item)
+            print('Added %s\'s request (%s)' % (item['author'], item['type']))
         except IOError as e:
-            print 'Enable to open request.db (%s). Making a new one!' % str(e)
+            print('Enable to open request.db (%s). Making a new one!' % str(e))
             genNewDB('request.db', {'list': []})
             data = addRequest(item)
-        return flask.render_template('index.html', success="Request has been received. Thank you!")
+        return flask.render_template('index.html', success='Request has been received. Thank you!')
 
 
 @app.errorhandler(404)
@@ -315,13 +328,13 @@ def nl2br(value):
 
 # flask.filters['nl2br'] = nl2br
 
-if __name__ == '__main__':
-    # Create a thread to check for inactive servers...
-    # This is the daemon that powers the /servers route
-    thread = Thread(target = server_daemon, args = ())
-    thread.start()
+# Create a thread to check for inactive servers...
+# This is the daemon that powers the /servers route
+thread = Thread(target = server_daemon, args = ())
+thread.start()
 
-    # Debug should normally be false, so we don't display hazardous information!
-    app.debug = True # Set it to true, to show awesome debugging information!
-    app.secret_key = str(crypt(0, 1000000000000000)) # Randomize so sessions are reset on reboot
+# Debug should normally be false, so we don't display hazardous information!
+app.debug = True # Set it to true, to show awesome debugging information!
+app.secret_key = settings.key
+if __name__ == '__main__':
     app.run(host='0.0.0.0', port=4000)

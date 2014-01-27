@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% set active_page = "requests" %}
+{% set active_page = "request" %}
 {% block title %}Requests{% endblock title %}
 {% block content %}
     <div id="blue">
@@ -14,9 +14,9 @@
     </div><!--  bluewrap -->
     {% if requests %}
     <div class="container w">
-        <div class="panel panel-default widget">
+        <div class="panel panel-primary widget">
             <div class="panel-heading">
-                <span class="fa fa-comment"></span>
+                <span class="fa fa-bug"></span>
                 <h3 class="panel-title">
                     Recent Requests</h3>
                 <!--<span class="label label-info">
@@ -27,27 +27,47 @@
                     {% for request in requests %}
                     <li class="list-group-item">
                         <div class="row">
-                            <div class="col-xs-2 col-md-1">
-                                {% if request.type == 'bug' %}
-                                    <i class="fa fa-bug" style="font-size:75px;margin:10px;"></i>
-                                {% else %}
-                                    <i class="fa fa-lightbulb-o" style="font-size:75px;margin:10px;margin-left:24px;"></i>
-                                {% endif %}
-                            </div>
-                            <div class="col-xs-9 col-md-10">
-                                <div>
-                                    <a>{{ request.type }} #{{ request.num }}</a>
-                                    <div class="mic-info">
-                                        By: <a href="#">{{ request.author }}</a> {{ request.time }} ago
+                            <div id="del-{{ request.num }}"></div>
+                            <div id="content-{{ request.num }}">
+                                <div class="col-xs-2 col-md-1">
+                                    {% if request.type == 'bug' %}
+                                        <i class="fa fa-bug" style="font-size:75px;margin:10px;"></i>
+                                    {% else %}
+                                        <i class="fa fa-lightbulb-o" style="font-size:75px;margin:10px;margin-left:24px;"></i>
+                                    {% endif %}
+                                </div>
+                                <div class="col-xs-9 col-md-10">
+                                    <div>
+                                        <p style="font-size:25px;">
+                                            <span class="label label-primary">#{{ request.num }}</span> | 
+                                            <span class="label label-danger">{{ request.type }}</span>
+                                            {% if request.ip %}
+                                                <span class="label label-info">{{ request.ip }}</span>
+                                            {% endif %}
+                                        </p>
+                                        <div class="mic-info">
+                                            By: <span class="label label-primary">{{ request.author }}</span>
+                                                {% if request.os %}
+                                                    <span class="label label-primary">Client os: {{ request.os }}</span>
+                                                {% endif %}
+                                                {% if request.runtime %}
+                                                    <span class="label label-primary">Client runtime: {{ request.runtime }}</span>
+                                                {% endif %}
+                                                {% if request.version %}
+                                                    <span class="label label-primary">Client version: {{ request.version }}</span>
+                                                {% endif %}
+                                                <span class="label label-success">{{ request.time }} ago</span>
+                                        </div>
+                                    </div>
+                                    <div class="comment-text">
+                                        <pre>{{ request.message }}</pre> {# can use  | nl2br | safe #}
                                     </div>
                                 </div>
-                                <div class="comment-text">
-                                    <pre>{{ request.message }}</pre> {# can use  | nl2br | safe #}
-                                </div>
-                            </div>
-                            <div class="col-xs-1 cold-md-1">
-                                <div class="action">
-                                    <a class="btn btn-danger" href="/request?delete={{ request.num }}"><i class="fa fa-trash-o"></i></a>
+                                <div class="col-xs-1 cold-md-1">
+                                    <div class="action">
+                                        <!--<a class="btn btn-danger" href="/request?delete={{ request.num }}"><i class="fa fa-trash-o"></i></a>-->
+                                        <button class="btn btn-danger" onclick="delRequest('{{request.num}}')"><i class="fa fa-trash-o"></i></button>
+                                    </div>
                                 </div>
                             </div>
                         </div>

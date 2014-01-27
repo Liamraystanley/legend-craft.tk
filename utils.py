@@ -146,3 +146,10 @@ def addRequest(item):
 def genNewDB(dbname, data):
     with open(str(dbname), 'w') as file:
         file.write(json.dumps(data, indent=4))
+
+# def get_quotes():
+#     if not os.path.isfile('quotes.db'):
+#         return False
+#     with open('quotes.db', 'r') as file:
+#         data = json.loads(file.read())['list']
+#     return data

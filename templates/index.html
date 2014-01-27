@@ -18,16 +18,18 @@
 
   <div class="container w">
     {% if error %}
-        <div class="alert alert-danger">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <strong>Note!</strong> {{error}}
-        </div>
+        <script>
+            $(document).ready(function() {
+                $.bootstrapGrowl("{{ error }}", {elem: 'main', type: 'error'});
+            });
+        </script>
     {% endif %}
     {% if success %}
-        <div class="alert alert-success">
-            <button type="button" class="close" data-dismiss="alert">&times;</button>
-            <strong>Heyyo!</strong> {{ success }}
-        </div>
+        <script>
+            $(document).ready(function() {
+                $.bootstrapGrowl("{{ success }}", {elem: 'main', type: 'success'});
+            });
+        </script>
     {% endif %}
     <div class="row centered">
       <br><br>
