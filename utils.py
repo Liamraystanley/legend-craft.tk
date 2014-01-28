@@ -52,7 +52,7 @@ def editServer(id, ping, pcount):
 
 
 def api():
-    release_uri = 'https://api.github.com/repos/LeChosenOne/LegendCraft/releases'
+    release_uri = 'https://api.github.com/repos/LegendCraft/LegendCraft/releases'
     try:
         data = {
                 'releases': json.loads(urllib2.urlopen(release_uri).read())

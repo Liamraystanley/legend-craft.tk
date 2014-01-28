@@ -41,9 +41,9 @@ def rest_api():
 @app.route('/download/<version>')
 @app.route('/download/<version>/<other>')
 def download(version=None, other=None):
-    source_uri = 'https://api.github.com/repos/LeChosenOne/LegendCraft/zipball/%s'
-    download_uri = 'https://github.com/LeChosenOne/LegendCraft/releases/download/%s/%s' # tag, filename
-    git_uri = 'https://github.com/LeChosenOne/LegendCraft/releases/%s'
+    source_uri = 'https://api.github.com/repos/LegendCraft/LegendCraft/zipball/%s'
+    download_uri = 'https://github.com/LegendCraft/LegendCraft/releases/download/%s/%s' # tag, filename
+    git_uri = 'https://github.com/LegendCraft/LegendCraft/releases/%s'
     data = api()
     if not data:
         return flask.abort(404)
@@ -88,7 +88,7 @@ def download(version=None, other=None):
 
 @app.route('/license')
 def license():
-    return flask.redirect('https://raw.github.com/LeChosenOne/LegendCraft/master/License.txt')
+    return flask.redirect('https://raw.github.com/LegendCraft/LegendCraft/master/License.txt')
 
 
 @app.route('/wiki')
