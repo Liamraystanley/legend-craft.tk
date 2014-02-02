@@ -80,7 +80,7 @@ def isauthed(username, passwd):
     if 'not premium' in data or 'deprecated' in data:
         # User is logginable
         # Here, make an admin email list. Also make sure that they are LOWER case!
-        admins = ['me@liamstanley.net', 'aceofblades51@gmail.com']
+        admins = ['me@liamstanley.io', 'aceofblades51@gmail.com']
         if not username.lower() in admins:
             return 2
         return 1
