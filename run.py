@@ -1,28 +1,28 @@
 #!/usr/bin/python
-import flask, flask.views
+import flask
+import flask.views
 app = flask.Flask(__name__)
 from werkzeug.contrib.fixers import ProxyFix
 app.wsgi_app = ProxyFix(app.wsgi_app)
 
-import time, os
+import time
+import os
 from flask import jsonify
 from threading import Thread
 from hashlib import md5
-from collections import OrderedDict
-#from random import randint as crypt
 from utils import *
 import settings
 
 
 @app.route('/')
 @app.route('/<page>')
-def main(page="index"):    
+def main(page="index"):
     if page == 'logout':
         print('User %s logged out.' % flask.session['username'])
         flask.session.pop('username', None)
         return flask.render_template('index.html', success="Successfully logged out!")
     if os.path.isfile('templates/%s.html' % page):
-        return flask.render_template(page+'.html')
+        return flask.render_template(page + '.html')
     return flask.abort(404)
 
 
@@ -42,7 +42,7 @@ def rest_api():
 @app.route('/download/<version>/<other>')
 def download(version=None, other=None):
     source_uri = 'https://api.github.com/repos/LegendCraft/LegendCraft/zipball/%s'
-    download_uri = 'https://github.com/LegendCraft/LegendCraft/releases/download/%s/%s' # tag, filename
+    download_uri = 'https://github.com/LegendCraft/LegendCraft/releases/download/%s/%s'
     git_uri = 'https://github.com/LegendCraft/LegendCraft/releases/%s'
     data = api()
     if not data:
@@ -50,13 +50,13 @@ def download(version=None, other=None):
     data = data['releases']
     latest_tag = data[0]['tag_name']
     latest_file = data[0]['assets'][0]['name']
-    src_aliases = ['src','source','fork','git']
+    src_aliases = ['src', 'source', 'fork', 'git']
     view_aliases = ['view', 'read', 'html', 'data', 'read']
-    if not version: # Assume that they want to list all current downloads
+    if not version:  # Assume that they want to list all current downloads
         return flask.render_template('download.html', data=data)
     elif version.lower() == 'latest':
         if other:
-            if other.lower() in src_aliases: 
+            if other.lower() in src_aliases:
                 return flask.redirect(source_uri % data[0]['tag_name'])
             elif other.lower() == 'update':
                 return str(latest_tag)
@@ -97,9 +97,12 @@ def wiki():
 
 
 ran = False
+
+
 def server_daemon():
     global ran
-    if ran: return
+    if ran:
+        return
     ran = True
     while True:
         time.sleep(120)
@@ -110,7 +113,7 @@ def server_daemon():
             #print '[DAEMON] No servers to check for!'
             pass
         tmp = []
-        for server in servers: # "server" being a index #
+        for server in servers:  # "server" being a index #
             difference = int(time.time()) - int(server['last_ping'])
             if difference > 480:
                 print '[DAEMON] Removed stale server'
@@ -140,7 +143,7 @@ def server_heartbeat():
     server['pcount'] = str(args['players'])
     server['pmax'] = str(args['max'])
     server['url'] = args['url']
-    
+
     if len(server['version'].split('.')) != 3:
         server['version'] = 'Custom'
 
@@ -193,17 +196,14 @@ class Login(flask.views.MethodView):
         if 'url' in flask.request.args:
             return flask.render_template('login.html', url=flask.request.args['url'])
         return flask.render_template('login.html')
+
     def post(self):
         if 'username' in flask.session:
             return flask.redirect('/')
         form = flask.request.form
         required = ['username', 'passwd']
         if not required[0] in form or not required[1] in form:
-            error = 'You must have both a password and username!'
             return flask.render_template('login.html')
-        #if 'logout' in form:
-        #    flask.session.pop('username', None)
-        #    return flask.redirect(flask.url_for('login'))
         errors = {
             'blank': 'You must have both a username and password.',
             'incorrect': 'Incorrect username or password.',
@@ -234,7 +234,7 @@ class Request(flask.views.MethodView):
     def get(self):
         args = flask.request.args
         if 'delete' in args:
-            attempt = remRequest(args['delete'])
+            remRequest(args['delete'])
             return flask.redirect(flask.url_for('request'))
 
         data = getRequests()
@@ -281,25 +281,27 @@ class Request(flask.views.MethodView):
         # Make sure message isn't mass spam..
         while '\r\n\r\n\r\n' in item['message']:
             item['message'] = item['message'].replace('\r\n\r\n\r\n', '\r\n\r\n')
-        
+
         # Add some optional things that we might get, from a servers winform
         for setting in optional:
             if setting in form:
                 item[setting] = form[setting]
 
-        if 'runtime' in form: item['runtime'] = form['runtime']
-        if 'os' in form: item['os'] = form['os']
+        if 'runtime' in form:
+            item['runtime'] = form['runtime']
+        if 'os' in form:
+            item['os'] = form['os']
 
         # Before we add it, see if we match another server...
         if item['id'] in getRequestIds():
             return flask.render_template('index.html', error='Duplicate submission!')
         try:
-            data = addRequest(item)
+            addRequest(item)
             print('Added %s\'s request (%s)' % (item['author'], item['type']))
         except IOError as e:
             print('Enable to open request.db (%s). Making a new one!' % str(e))
             genNewDB('request.db', {'list': []})
-            data = addRequest(item)
+            addRequest(item)
         return flask.render_template('index.html', success='Request has been received. Thank you!')
 
 
@@ -319,22 +321,23 @@ def page_not_found(error):
 #     return response
 
 
-app.add_url_rule('/login', view_func=Login.as_view('login'), methods=['GET','POST'])
-app.add_url_rule('/request', view_func=Request.as_view('request'), methods=['GET','POST'])
+app.add_url_rule('/login', view_func=Login.as_view('login'), methods=['GET', 'POST'])
+app.add_url_rule('/request', view_func=Request.as_view('request'), methods=['GET', 'POST'])
+
 
 @app.template_filter()
-def nl2br(value): 
-    return value.replace('\n','\n<br>')
+def nl2br(value):
+    return value.replace('\n', '\n<br>')
 
 # flask.filters['nl2br'] = nl2br
 
 # Create a thread to check for inactive servers...
 # This is the daemon that powers the /servers route
-thread = Thread(target = server_daemon, args = ())
+thread = Thread(target=server_daemon, args=())
 thread.start()
 
 # Debug should normally be false, so we don't display hazardous information!
-app.debug = True # Set it to true, to show awesome debugging information!
+app.debug = True  # Set it to true, to show awesome debugging information!
 app.secret_key = settings.key
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=4000)
