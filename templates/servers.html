@@ -48,7 +48,7 @@
                                         <a href="/download"><span class="label label-danger">{{ server.version }}</span></a>
                                     </td>
                                     <td>{{ server.pcount }}/{{ server.pmax }}</td>
-                                    <td>{{ server.uptime }}</td>
+                                    <td>{{ server.uptime_nice }}</td>
                                     <td><a class="btn btn-primary btn-sm" href="{{ server.url }}" target="_blank">Play</a></td>
                                 </tr>
                             {% endfor %}

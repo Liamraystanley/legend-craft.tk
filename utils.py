@@ -6,6 +6,9 @@ import json
 import hashlib
 import functools
 import requests
+import redis
+import re
+from pprint import pprint
 
 
 attrs = ['years', 'months', 'days', 'hours', 'minutes', 'seconds']
@@ -16,61 +19,56 @@ date = lambda delta: ['%d %s' % (getattr(delta, attr), getattr(delta, attr) > 1 
 # date(relativedelta(seconds=1207509))
 
 
-def getServers():
-    try:
-        with open('servers.db', 'r') as file:
-            servers = json.loads(file.read())['list']
-            return servers
-    except:
-        with open('servers.db', 'w') as file:
-            file.write(json.dumps({'list': []}, indent=4))
-            return []
+# def getServers():
+#     try:
+#         with open('servers.db', 'r') as file:
+#             servers = json.loads(file.read())['list']
+#             return servers
+#     except:
+#         with open('servers.db', 'w') as file:
+#             file.write(json.dumps({'list': []}, indent=4))
+#             return []
 
 
-def saveServers(data):
-    with open('servers.db', 'w') as file:
-        file.write(json.dumps({'list': data}, indent=4))
+# def saveServers(data):
+#     with open('servers.db', 'w') as file:
+#         file.write(json.dumps({'list': data}, indent=4))
 
 
-def getServerIds():
-    servers = getServers()
-    ids = []
-    for server in servers:
-        ids.append(server['id'])
-    return ids
+# def getServerIds():
+#     servers = getServers()
+#     ids = []
+#     for server in servers:
+#         ids.append(server['id'])
+#     return ids
 
 
-def editServer(id, ping, pcount):
-    # First, find the server with that ID...
-    servers = getServers()
-    tmp = []
-    for server in servers:
-        tmp.append(server)
-        if id == server['id']:
-            tmp[-1]['last_ping'] = ping
-            tmp[-1]['pcount'] = pcount
+# def editServer(id, ping, pcount):
+#     # First, find the server with that ID...
+#     servers = getServers()
+#     tmp = []
+#     for server in servers:
+#         tmp.append(server)
+#         if id == server['id']:
+#             tmp[-1]['last_ping'] = ping
+#             tmp[-1]['pcount'] = pcount
 
-    saveServers(tmp)
-
-
-def api():
-    release_uri = 'https://api.github.com/repos/LegendCraft/LegendCraft/releases'
-    try:
-        data = {
-            'releases': json.loads(requests.get(release_uri).text)
-        }
-        with open('data.db', 'w') as file:
-            file.write(json.dumps(data, indent=4))
-        return data
-    except Exception, e:
-        with open('data.db', 'r') as file:
-            data = json.loads(file.read())
-        print 'Failed to get data from Github (%s) Using backups.' % str(e)
-        return data
+#     saveServers(tmp)
 
 
 def isauthed(username, passwd):
     admins = ['me@liamstanley.io', 'aceofblades51@gmail.com']
+    r = mc_auth(username, passwd)
+    if 'error' in r or 'accessToken' not in r:
+        return False
+    # If we wanted to get premium profiles... r['availableProfiles']
+    if username.lower() in admins:
+        return 1
+    else:
+        return 2
+
+
+def mc_auth(username, passwd):
     uri = 'https://authserver.mojang.com/%s'
     data = json.dumps({
         "agent": {"name": "Minecraft", "version": 1},
@@ -80,15 +78,31 @@ def isauthed(username, passwd):
     try:
         r = requests.post(uri % 'authenticate', data=data, headers=headers)
         r = r.json()
+        return r
     except:
         return False
-    if 'error' in r or 'accessToken' not in r:
+
+def cc_auth(username, passwd):
+    uri = 'http://www.classicube.net/acc/login'
+
+    try:
+        # First we need to get the CSRF token before we send a POST...
+        data = requests.get(uri).text
+        csrf_re = re.compile(r'id="csrf_token" name="csrf_token" type="hidden" value="(.*?)"')
+        csrf = csrf_re.findall(data)[0]
+        
+        # Now, we need to send the user/pass/csrf token to the website
+        payload = {
+            'csrf_token': csrf,
+            'username': username,
+            'password': passwd
+        }
+        pprint(payload)
+        response = requests.post(uri, data=json.dumps(payload))
+        print response
+        print response.history
+    except:
         return False
-    # If we wanted to get premium profiles... r['availableProfiles']
-    if username.lower() in admins:
-        return 1
-    else:
-        return 2
 
 
 def login(method):
@@ -108,44 +122,44 @@ def hash(data):
     return data
 
 
-def getRequests():
-    try:
-        with open('request.db', 'r') as file:
-            data = json.loads(file.read())['list']
-    except IOError:
-        genNewDB('request.db', {'list': []})
-        data = []
-    return data
+# def getRequests():
+#     try:
+#         with open('request.db', 'r') as file:
+#             data = json.loads(file.read())['list']
+#     except IOError:
+#         genNewDB('request.db', {'list': []})
+#         data = []
+#     return data
 
 
-def remRequest(index):
-    data = getRequests()
-    try:
-        del data[int(index)]
-        with open('request.db', 'w') as file:
-            file.write(json.dumps({'list': data}, indent=4))
-        return True
-    except:
-        return False
+# def remRequest(index):
+#     data = getRequests()
+#     try:
+#         del data[int(index)]
+#         with open('request.db', 'w') as file:
+#             file.write(json.dumps({'list': data}, indent=4))
+#         return True
+#     except:
+#         return False
 
 
-def getRequestIds():
-    requests = getRequests()
-    ids = []
-    for request in requests:
-        ids.append(request['id'])
-    return ids
+# def getRequestIds():
+#     requests = getRequests()
+#     ids = []
+#     for request in requests:
+#         ids.append(request['id'])
+#     return ids
 
 
-def addRequest(item):
-    with open('request.db', 'r') as file:
-        data = json.loads(file.read())['list']
-    data.append(item)
-    with open('request.db', 'w') as file:
-        file.write(json.dumps({'list': data}, indent=4))
-    return data
+# def addRequest(item):
+#     with open('request.db', 'r') as file:
+#         data = json.loads(file.read())['list']
+#     data.append(item)
+#     with open('request.db', 'w') as file:
+#         file.write(json.dumps({'list': data}, indent=4))
+#     return data
 
 
-def genNewDB(dbname, data):
-    with open(str(dbname), 'w') as file:
-        file.write(json.dumps(data, indent=4))
+# def genNewDB(dbname, data):
+#     with open(str(dbname), 'w') as file:
+#         file.write(json.dumps(data, indent=4))
