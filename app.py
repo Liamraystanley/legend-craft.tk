@@ -172,6 +172,7 @@ def server_list():
 
     # Take the time, convert their ugly POSIX time to humanly-readable-time
     for server in tmp:
+        print server
         # At a later time, we'll find the difference between the stored INITIAL heartbeat,
         # And the current time, giving us the seconds for the HR uptime
         difference = int(time.time()) - int(server['uptime'])
